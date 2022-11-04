@@ -17,6 +17,14 @@ library(microbenchmark)
 install.packages("parallel")
 library(parallel)
 
+f <- function(i) {
+  lmer(Petal.Width ~ . - Species + (1 | Species), data = iris)}
+
+system.time({
+  library(lme4)
+  save1 <- lapply(1:100, f)})
+
+
 # Using sequential
 
 
