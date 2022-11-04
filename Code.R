@@ -1,33 +1,49 @@
-#install.packages("parallel")
+# Comparison between Parallel and Sequential Processing 
 
-#library(parallel)
-#library(MASS)
-
-#data <- read.csv("C:/Users/lauwa/Downloads/DATASET/DATASET/Apr_borough_grocery.csv")
-
-
-#starts <- rep(100, 40)
-#fx <- function(nstart) kmeans(Boston, 4, nstart=nstart)
-#numCores <- detectCores()
-#numCores
-
-#system.time(results <- lapply(starts, fx))
-
-
-
-
-
-
-
-
-# Example 2 - Using tidyverse
+# Using tidyverse to read data set
 install.packages("tidyverse")
 library(tidyverse)
+
 df <-
   list.files(path = "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/", pattern = "*.csv") %>%
   map_df(~read_csv(.))
 df
 
+# Using microbenchmark to compare the two processing
+install.packages("microbenchmark")
+library(microbenchmark)
+
+# Using parallel package
+install.packages("parallel")
+library(parallel)
+
+# Using sequential
+
+
+
+# Start comparing
+numCores <- detectCores()
+
+results <- mclapply(1:100,
+                    FUN=function(i) read.csv(paste0("./data/datafile-", i, ".csv")),
+                    mc.cores = numCores)
+
+f <- function() NULL
+res <- microbenchmark(NULL, f(), times=1000L)
+print(res)
+
+
+mbm <- microbenchmark("lm" = { b <- lm(y ~ X + 0)$coef },
+                      "pseudoinverse" = {
+                        b <- solve(t(X) %*% X) %*% t(X) %*% y
+                        },
+                      "linear system" = {
+                        b <- solve(t(X) %*% X, t(X) %*% y)
+                        },
+                      check = check_for_equal_coefs)
+mbm
+library(ggplot2)
+autoplot(mbm)
 
 
 
