@@ -1,54 +1,53 @@
 # Comparison between Parallel and Sequential Processing
 
-# Set working directory
-setwd("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET")
-
 # Using parallel package
 install.packages("parallel")
-library(parallel)
-detectCores()
 
 # Using tidyverse to read data set
 install.packages("tidyverse")
-library(tidyverse)
 
+# Set working directory
+setwd("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET")
+
+library(parallel)
+detectCores()
+
+# Sequential processing
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
+filenames <- list.files(path, pattern = "*.csv")
+filenames
+All <- lapply(filenames,FUN = function(i){
+  read.csv(i, header=TRUE, skip=4)
+})
 
+All
+
+sequential_time <- system.time(lapply(1:100, All))
+
+# Parallel processing
+library(tidyverse)
+path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
 df <- list.files(path, pattern = "*.csv") %>%
 map_df(~read_csv(.))
 df
 
-# Using sequential
-path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
-
-filenames <- list.files(path, pattern = "*.csv")
-All <- lapply(filenames,function(i){
-  read.csv(i, header=TRUE, skip=4)
-})
-
-system.time(save1 <- lapply(1:100, All))
+parallel_time <- system.time(map_df)
 
 # Using microbenchmark to compare the two processing
 install.packages("microbenchmark")
+
+# Load the microbenchmark package
 library(microbenchmark)
 
-f <- function() NULL
-res <- microbenchmark(NULL, f(), times=1000L)
-print(res)
+# Compare the two functions
+compare <- microbenchmark(parallel_time, 
+                          sequential_time, 
+                          times = 10)
 
-
-mbm <- microbenchmark("lm" = { b <- lm(y ~ X + 0)$coef },
-                      "pseudoinverse" = {
-                        b <- solve(t(X) %*% X) %*% t(X) %*% y
-                        },
-                      "linear system" = {
-                        b <- solve(t(X) %*% X, t(X) %*% y)
-                        },
-                      check = check_for_equal_coefs)
-
-mbm
+# Print compare
+compare
 library(ggplot2)
-autoplot(mbm)
+autoplot(compare)
 
 
 
