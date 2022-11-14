@@ -16,28 +16,23 @@ detectCores()
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
 filenames <- list.files(path, pattern = "*.csv")
 filenames
-All <- lapply(filenames,FUN = function(i){
+lapply <- lapply(filenames,FUN = function(i){
   read.csv(i, header=TRUE, skip=4)
 })
 
-All
-
 system.time(lapply(filenames,FUN = function(i){read.csv(i, header=TRUE, skip=4)}))
-
-lapply_time <- system.time(lapply(filenames,FUN = function(i){read.csv(i, header=TRUE, skip=4)}))
 
 # Parallel processing
 library(tidyverse)
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
-df <- list.files(path, pattern = "*.csv") %>%
+tidyverse <- list.files(path, pattern = "*.csv") %>%
 map_df(~read_csv(.))
-df
+
+tidyverse
 
 system.time(list.files(path, pattern = "*.csv") %>%
               map_df(~read_csv(.)))
 
-tidyverse_time <- system.time(list.files(path, pattern = "*.csv") %>%
-                                map_df(~read_csv(.)))
 
 # Using microbenchmark to compare the two processing
 install.packages("microbenchmark")
@@ -46,8 +41,8 @@ install.packages("microbenchmark")
 library(microbenchmark)
 
 # Compare the two functions
-compare <- microbenchmark(tidyverse_time, 
-                          lapply_time, 
+compare <- microbenchmark(tidyverse, 
+                          lapply, 
                           times = 6)
 
 # Print compare
