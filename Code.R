@@ -22,7 +22,9 @@ All <- lapply(filenames,FUN = function(i){
 
 All
 
-sequential_time <- system.time(lapply(1:100, All))
+system.time(lapply(filenames,FUN = function(i){read.csv(i, header=TRUE, skip=4)}))
+
+lapply_time <- system.time(lapply(filenames,FUN = function(i){read.csv(i, header=TRUE, skip=4)}))
 
 # Parallel processing
 library(tidyverse)
@@ -31,7 +33,11 @@ df <- list.files(path, pattern = "*.csv") %>%
 map_df(~read_csv(.))
 df
 
-parallel_time <- system.time(map_df)
+system.time(list.files(path, pattern = "*.csv") %>%
+              map_df(~read_csv(.)))
+
+tidyverse_time <- system.time(list.files(path, pattern = "*.csv") %>%
+                                map_df(~read_csv(.)))
 
 # Using microbenchmark to compare the two processing
 install.packages("microbenchmark")
@@ -40,9 +46,9 @@ install.packages("microbenchmark")
 library(microbenchmark)
 
 # Compare the two functions
-compare <- microbenchmark(parallel_time, 
-                          sequential_time, 
-                          times = 10)
+compare <- microbenchmark(tidyverse_time, 
+                          lapply_time, 
+                          times = 6)
 
 # Print compare
 compare
