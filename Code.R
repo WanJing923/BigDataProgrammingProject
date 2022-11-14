@@ -6,11 +6,17 @@ install.packages("parallel")
 # Using tidyverse to read data set
 install.packages("tidyverse")
 
+# Using microbenchmark to compare the two processing
+install.packages("microbenchmark")
+
 # Set working directory
 setwd("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET")
 
 library(parallel)
 detectCores()
+
+# Load the microbenchmark package
+library(microbenchmark)
 
 # Sequential processing
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
@@ -26,33 +32,30 @@ system.time(lapply(filenames,FUN = function(i){read.csv(i, header=TRUE, skip=4)}
 library(tidyverse)
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
 tidyverse <- list.files(path, pattern = "*.csv") %>%
-map_df(~read_csv(.))
+  map_df(~read_csv(.))
 
 tidyverse
 
 system.time(list.files(path, pattern = "*.csv") %>%
               map_df(~read_csv(.)))
 
-
-# Using microbenchmark to compare the two processing
-install.packages("microbenchmark")
-
-# Load the microbenchmark package
-library(microbenchmark)
-
 # Compare the two functions
 compare <- microbenchmark(tidyverse, 
-                          lapply, 
-                          times = 6)
+                          lapply,
+                          times = 2)
 
 # Print compare
 compare
+
+# Plot output
 library(ggplot2)
-autoplot(compare)
 
+df <- data.frame(compare)
+head(df)
 
+p <- ggplot(data=df, aes(x=expr, y=time)) + geom_bar(stat="identity")
 
-
+p
 
 
 
