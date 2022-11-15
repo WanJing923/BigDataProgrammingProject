@@ -9,6 +9,9 @@ install.packages("tidyverse")
 # Using microbenchmark to compare the two processing
 install.packages("microbenchmark")
 
+# Using ggplot2 to visualize data
+install.packages("ggplot2")
+
 # Set working directory
 setwd("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET")
 
