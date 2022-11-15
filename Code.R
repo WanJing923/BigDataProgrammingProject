@@ -22,11 +22,9 @@ library(microbenchmark)
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
 filenames <- list.files(path, pattern = "*.csv")
 filenames
-lapply_1 <- lapply(filenames,FUN = function(i){
+lapply_function <- lapply(filenames,FUN = function(i){
   read.csv(i, header=TRUE, skip=4)
 })
-
-system.time(lapply(filenames,FUN = function(i){read.csv(i, header=TRUE, skip=4)}))
 
 # Parallel processing
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
@@ -35,18 +33,16 @@ filenames
 
 cl <- makeCluster(detectCores())
 
-parLapply_1 <- parLapply(cl, filenames,fun = function(i){
+parLapply_function <- parLapply(cl, filenames,fun = function(i){
   read.csv(i, header=TRUE, skip=4)
 })
-
-parLapply_1
 
 stopCluster(cl)
 
 # Compare the two functions
-compare <- microbenchmark(parLapply_1, 
-                          lapply_1,
-                          times = 2)
+compare <- microbenchmark(lapply_function,
+                          parLapply_function,
+                          times = 1)
 
 # Print compare
 compare
@@ -60,13 +56,3 @@ head(df)
 p <- ggplot(data=df, aes(x=expr, y=time)) + geom_bar(stat="identity")
 
 p
-
-
-
-
-
-
-
-
-
-
