@@ -18,10 +18,9 @@ setwd("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProj
 library(parallel)
 detectCores()
 
-# Load the microbenchmark package
 library(microbenchmark)
 
-# Sequential processing
+# Sequential
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
 filenames <- list.files(path, pattern = "*.csv")
 filenames
@@ -29,7 +28,7 @@ lapply_function <- lapply(filenames,FUN = function(i){
   read.csv(i, header=TRUE, skip=4)
 })
 
-# Parallel processing
+# Parallel
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
 filenames <- list.files(path, pattern = "*.csv")
 filenames
@@ -42,7 +41,7 @@ parLapply_function <- parLapply(cl, filenames,fun = function(i){
 
 stopCluster(cl)
 
-# Compare the two functions
+# Compare
 compare <- microbenchmark(lapply_function,
                           parLapply_function,
                           times = 1)
@@ -59,3 +58,20 @@ head(df)
 p <- ggplot(data=df, aes(x=expr, y=time)) + geom_bar(stat="identity")
 
 p
+
+# Descriptive Analysis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
