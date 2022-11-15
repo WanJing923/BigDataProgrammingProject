@@ -3,13 +3,11 @@
 # Using parallel package
 install.packages("parallel")
 
-# Using tidyverse to read data set
-install.packages("tidyverse")
-
 # Using microbenchmark to compare the two processing
 install.packages("microbenchmark")
 
 # Using ggplot2 to visualize data
+install.packages("rlang")
 install.packages("ggplot2")
 
 # Set working directory
@@ -60,14 +58,6 @@ p <- ggplot(data=df, aes(x=expr, y=time)) + geom_bar(stat="identity")
 p
 
 # Descriptive Analysis
-
-
-
-
-
-
-
-
 
 
 
