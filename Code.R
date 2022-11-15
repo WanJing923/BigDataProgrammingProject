@@ -129,7 +129,7 @@ IQR(data$energy_density)
 IQR(data$avg_age)
 IQR(data$num_transactions)
 
-# standard deviation and variance of product calories, average age and number of transitions
+# standard deviation and variance of product calories, average age and number of transactions
 sd(data$energy_density)
 sd(data$avg_age)
 sd(data$num_transactions)
@@ -157,27 +157,42 @@ sd(data$num_transactions) / mean(data$num_transactions)
 # Data Analysis
 
 # Correlation Test
+install.packages("ggpubr")
+library("ggpubr")
+
+# check whether the highest calories have a relationship with the consumer age
+ggscatter(data, x = "energy_density", y = "avg_age", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Product calories(kcal)", ylab = "Average age")
+
+res <- cor.test(data$energy_density, data$avg_age, 
+         method = "pearson")
+
+res$p.value
+
+res$estimate
+
+# check whether the highest transaction have a relationship with the product calories
+ggscatter(data, x = "energy_density", y = "num_transactions", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Product calories(kcal)", ylab = "Number of transactions")
+
+res <- cor.test(data$energy_density, data$num_transactions, 
+         method = "pearson")
+
+res$p.value
+
+res$estimate
 
 
 
+res2 <- cor.test(data$energy_density, data$avg_age, method="kendall")
+res2
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+res2 <-cor.test(data$energy_density, data$avg_age, method = "spearman")
+res2
 
 
 
