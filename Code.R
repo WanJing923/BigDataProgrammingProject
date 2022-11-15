@@ -22,26 +22,30 @@ library(microbenchmark)
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
 filenames <- list.files(path, pattern = "*.csv")
 filenames
-lapply <- lapply(filenames,FUN = function(i){
+lapply_1 <- lapply(filenames,FUN = function(i){
   read.csv(i, header=TRUE, skip=4)
 })
 
 system.time(lapply(filenames,FUN = function(i){read.csv(i, header=TRUE, skip=4)}))
 
 # Parallel processing
-library(tidyverse)
 path <- "C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/"
-tidyverse <- list.files(path, pattern = "*.csv") %>%
-  map_df(~read_csv(.))
+filenames <- list.files(path, pattern = "*.csv")
+filenames
 
-tidyverse
+cl <- makeCluster(detectCores())
 
-system.time(list.files(path, pattern = "*.csv") %>%
-              map_df(~read_csv(.)))
+parLapply_1 <- parLapply(cl, filenames,fun = function(i){
+  read.csv(i, header=TRUE, skip=4)
+})
+
+parLapply_1
+
+stopCluster(cl)
 
 # Compare the two functions
-compare <- microbenchmark(tidyverse, 
-                          lapply,
+compare <- microbenchmark(parLapply_1, 
+                          lapply_1,
                           times = 2)
 
 # Print compare
