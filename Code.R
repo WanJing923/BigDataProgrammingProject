@@ -57,7 +57,7 @@ p <- ggplot(data=df, aes(x=expr, y=time)) + geom_bar(stat="identity")
 
 p
 
-# Descriptive Analysis
+# Combining multiple csv files
 install.packages("dplyr")
 
 library(dplyr)
@@ -83,9 +83,10 @@ df %>% print(width=Inf)
 
 # Keep the targeted columns: product calories, average age and number of transitions
 data = subset(df, select = c(energy_density, avg_age, num_transactions))
+data
 data %>% print(n=Inf)
 
-# Data cleansing
+# Data cleaning
 install.packages("janitor")
 library(janitor)
 library(dplyr)
@@ -100,6 +101,16 @@ data<-data %>% remove_empty(whic=c("cols"))
 # Change the columns name
 colnames(data) <- c("Product_calories", "Average_age","Number_of_transitions")
 str(data)
+
+data %>% print(n=Inf)
+
+# Export csv
+write.csv(data,"C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/FinalDataset.csv", row.names = FALSE)
+
+write.csv(df,"C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/FinalCombiningDataset.csv", row.names = FALSE)
+
+
+# Descriptive Analysis
 
 # minimum, maximum and range of product calories
 min(data$Product_calories)
