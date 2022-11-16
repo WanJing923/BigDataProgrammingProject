@@ -309,5 +309,12 @@ res <- cor.test(oswardData$Product_calories, oswardData$Number_of_transitions,
 res$p.value
 res$estimate
 
+# Supervised learning: hypothesis testing
 
+# fit linear model
+linear_model <- lm(Product_calories ~ Number_of_transitions^2, data=boroughData)
 
+# view summary of linear model
+summary(linear_model)
+
+plot(linear_model)
