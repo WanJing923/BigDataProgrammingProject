@@ -72,7 +72,7 @@ files <- list(file1, file2, file3)
 
 df <- files %>% 
   lapply(read_csv) %>% 
-  bind_rows 
+  bind_rows
 
 # View resulting data frame
 df %>% data.frame
@@ -82,60 +82,73 @@ df %>% print(n=Inf)
 df %>% print(width=Inf)
 
 # Keep the targeted columns: product calories, average age and number of transitions
-data = df[c("energy_density","avg_age","num_transactions")]
+data = subset(df, select = c(energy_density, avg_age, num_transactions))
 data %>% print(n=Inf)
 
+# Data cleansing
+install.packages("janitor")
+library(janitor)
+library(dplyr)
+
+# round up the digits of the data
+round(data, digits = 3)
+
+# handle NA rows and columns
+data<-data %>% remove_empty(whic=c("rows"))
+data<-data %>% remove_empty(whic=c("cols"))
+
+# Change the columns name
+colnames(data) <- c("Product_calories", "Average_age","Number_of_transitions")
 str(data)
 
 # minimum, maximum and range of product calories
-min(data$energy_density)
-max(data$energy_density)
-range(data$energy_density)
+min(data$Product_calories)
+max(data$Product_calories)
+range(data$Product_calories)
 
 # minimum, maximum and range of average age
-min(data$avg_age)
-max(data$avg_age)
-range(data$avg_age)
-
+min(data$Average_age)
+max(data$Average_age)
+range(data$Average_age)
 
 # minimum, maximum and range of number of transitions
-min(data$num_transactions)
-max(data$num_transactions)
-range(data$num_transactions)
+min(data$Number_of_transitions)
+max(data$Number_of_transitions)
+range(data$Number_of_transitions)
 
 # mean of product calories, average age and number of transitions
-mean(data$energy_density)
-mean(data$avg_age)
-mean(data$num_transactions)
+mean(data$Product_calories)
+mean(data$Average_age)
+mean(data$Number_of_transitions)
 
 # median of product calories, average age and number of transitions
-median(data$energy_density)
-median(data$avg_age)
-median(data$num_transactions)
+median(data$Product_calories)
+median(data$Average_age)
+median(data$Number_of_transitions)
 
 # first and third quartile of product calories, average age and number of transitions
-quantile(data$energy_density, 0.25)
-quantile(data$energy_density, 0.75)
+quantile(data$Product_calories, 0.25)
+quantile(data$Product_calories, 0.75)
 
-quantile(data$avg_age, 0.25)
-quantile(data$avg_age, 0.75)
+quantile(data$Average_age, 0.25)
+quantile(data$Average_age, 0.75)
 
-quantile(data$num_transactions, 0.25)
-quantile(data$num_transactions, 0.75)
+quantile(data$Number_of_transitions, 0.25)
+quantile(data$Number_of_transitions, 0.75)
 
 # interquartile range of product calories, average age and number of transitions
-IQR(data$energy_density)
-IQR(data$avg_age)
-IQR(data$num_transactions)
+IQR(data$Product_calories)
+IQR(data$Average_age)
+IQR(data$Number_of_transitions)
 
 # standard deviation and variance of product calories, average age and number of transactions
-sd(data$energy_density)
-sd(data$avg_age)
-sd(data$num_transactions)
+sd(data$Product_calories)
+sd(data$Average_age)
+sd(data$Number_of_transitions)
 
-var(data$energy_density)
-var(data$avg_age)
-var(data$num_transactions)
+var(data$Product_calories)
+var(data$Average_age)
+var(data$Number_of_transitions)
 
 # standard deviation and variance of three columns
 lapply(data[, 1:3], sd)
@@ -149,9 +162,9 @@ library(pastecs)
 stat.desc(data)
 
 # coefficient of variation
-sd(data$energy_density) / mean(data$energy_density)
-sd(data$avg_age) / mean(data$avg_age)
-sd(data$num_transactions) / mean(data$num_transactions)
+sd(data$Product_calories) / mean(data$Product_calories)
+sd(data$Average_age) / mean(data$Average_age)
+sd(data$Number_of_transitions) / mean(data$Number_of_transitions)
 
 # Data Analysis
 
@@ -160,24 +173,26 @@ install.packages("ggpubr")
 library("ggpubr")
 
 # check whether the highest calories have a relationship with the consumer age
-ggscatter(data, x = "energy_density", y = "avg_age",
+ggscatter(data, x = "Product_calories", y = "Average_age",
           add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Product calories(kcal)", ylab = "Average age")
 
-res <- cor.test(data$energy_density, data$avg_age, 
+res <- cor.test(data$Product_calories, data$Average_age, 
          method = "pearson")
 
 res$p.value
 res$estimate
 
+data
+
 # check whether the highest transaction have a relationship with the product calories
-ggscatter(data, x = "energy_density", y = "num_transactions",
+ggscatter(data, x = "Product_calories", y = "Number_of_transitions",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Product calories(kcal)", ylab = "Number of transactions")
 
-res <- cor.test(data$energy_density, data$num_transactions, 
+res <- cor.test(data$Product_calories, data$Number_of_transitions, 
          method = "pearson")
 
 res$p.value
@@ -190,37 +205,68 @@ boroughAreaDec <- read.csv("C:/Users/lauwa/Documents/BigDataProgrammingProject/B
 boroughAreaDec %>% data.frame 
 
 # Keep the targeted columns: product calories, average age and number of transitions
-boroughData = boroughAreaDec[c("energy_density","avg_age","num_transactions")]
+boroughData = subset(boroughAreaDec, select = c(energy_density, avg_age, num_transactions))
 boroughData
 
-ggscatter(boroughData, x = "energy_density", y = "avg_age",
+# Change the columns name
+colnames(boroughData) <- c("Product_calories", "Average_age","Number_of_transitions")
+
+# product calories and average age
+ggscatter(boroughData, x = "Product_calories", y = "Average_age",
           add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Product calories(kcal)", ylab = "Average age")
 
-res <- cor.test(boroughData$energy_density, boroughData$avg_age, 
+res <- cor.test(boroughData$Product_calories, boroughData$Average_age,
                 method = "pearson")
 
 res$p.value
 res$estimate
 
+# product calories and number of transactions
+ggscatter(boroughData, x = "Product_calories", y = "Number_of_transitions",
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Product calories(kcal)", ylab = "Number of transactions")
+
+res <- cor.test(boroughData$Product_calories, boroughData$Number_of_transitions, 
+                method = "pearson")
+
+res$p.value
+res$estimate
 
 # Correlation in MSOA Area
 msoaAreaDec <- read.csv("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/Dec_msoa_grocery.csv")
 
 # View resulting data frame
-msoaAreaDec %>% data.frame 
+msoaAreaDec %>% data.frame
 
 # Keep the targeted columns: product calories, average age and number of transitions
-msoaData = msoaAreaDec[c("energy_density","avg_age","num_transactions")]
+msoaData = subset(msoaAreaDec, select = c(energy_density, avg_age, num_transactions))
 msoaData
 
-ggscatter(msoaData, x = "energy_density", y = "avg_age",
+# Change the columns name
+colnames(msoaData) <- c("Product_calories", "Average_age","Number_of_transitions")
+
+# product calories and average age
+ggscatter(msoaData, x = "Product_calories", y = "Average_age",
           add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Product calories(kcal)", ylab = "Average age")
 
-res <- cor.test(msoaData$energy_density, msoaData$avg_age, 
+res <- cor.test(msoaData$Product_calories, msoaData$Average_age, 
+                method = "pearson")
+
+res$p.value
+res$estimate
+
+# product calories and number of transactions
+ggscatter(msoaData, x = "Product_calories", y = "Number_of_transitions",
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Product calories(kcal)", ylab = "Number of transactions")
+
+res <- cor.test(msoaData$Product_calories, msoaData$Number_of_transitions, 
                 method = "pearson")
 
 res$p.value
@@ -233,28 +279,35 @@ oswardAreaDec <- read.csv("C:/Users/lauwa/Documents/BigDataProgrammingProject/Bi
 oswardAreaDec %>% data.frame 
 
 # Keep the targeted columns: product calories, average age and number of transitions
-oswardData = oswardAreaDec[c("energy_density","avg_age","num_transactions")]
+oswardData = subset(oswardAreaDec, select = c(energy_density, avg_age, num_transactions))
 oswardData
 
-ggscatter(oswardData, x = "energy_density", y = "avg_age",
+# Change the columns name
+colnames(oswardData) <- c("Product_calories", "Average_age","Number_of_transitions")
+
+# product calories and average age
+ggscatter(oswardData, x = "Product_calories", y = "Average_age",
           add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Product calories(kcal)", ylab = "Average age")
 
-res <- cor.test(oswardData$energy_density, oswardData$avg_age, 
+res <- cor.test(oswardData$Product_calories, oswardData$Average_age, 
                 method = "pearson")
 
 res$p.value
 res$estimate
 
-# Hypothesis Testing
+# product calories and number of transactions
+ggscatter(oswardData, x = "Product_calories", y = "Number_of_transitions",
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Product calories(kcal)", ylab = "Number of transactions")
 
+res <- cor.test(oswardData$Product_calories, oswardData$Number_of_transitions, 
+                method = "pearson")
 
-
-
-
-
-
+res$p.value
+res$estimate
 
 
 
