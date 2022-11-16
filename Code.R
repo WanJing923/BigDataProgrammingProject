@@ -58,7 +58,6 @@ p <- ggplot(data=df, aes(x=expr, y=time)) + geom_bar(stat="identity")
 p
 
 # Descriptive Analysis
-
 install.packages("dplyr")
 
 library(dplyr)
@@ -76,7 +75,7 @@ df <- files %>%
   bind_rows 
 
 # View resulting data frame
-df %>% data.frame 
+df %>% data.frame
 
 # View all rows or columns
 df %>% print(n=Inf)
@@ -161,8 +160,8 @@ install.packages("ggpubr")
 library("ggpubr")
 
 # check whether the highest calories have a relationship with the consumer age
-ggscatter(data, x = "energy_density", y = "avg_age", 
-          add = "reg.line", conf.int = TRUE, 
+ggscatter(data, x = "energy_density", y = "avg_age",
+          add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Product calories(kcal)", ylab = "Average age")
 
@@ -170,11 +169,10 @@ res <- cor.test(data$energy_density, data$avg_age,
          method = "pearson")
 
 res$p.value
-
 res$estimate
 
 # check whether the highest transaction have a relationship with the product calories
-ggscatter(data, x = "energy_density", y = "num_transactions", 
+ggscatter(data, x = "energy_density", y = "num_transactions",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
           xlab = "Product calories(kcal)", ylab = "Number of transactions")
@@ -183,26 +181,79 @@ res <- cor.test(data$energy_density, data$num_transactions,
          method = "pearson")
 
 res$p.value
+res$estimate
 
+# Correlation in Borough Area
+boroughAreaDec <- read.csv("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/Dec_borough_grocery.csv")
+
+# View resulting data frame
+boroughAreaDec %>% data.frame 
+
+# Keep the targeted columns: product calories, average age and number of transitions
+boroughData = boroughAreaDec[c("energy_density","avg_age","num_transactions")]
+boroughData
+
+ggscatter(boroughData, x = "energy_density", y = "avg_age",
+          add = "reg.line", conf.int = TRUE,
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Product calories(kcal)", ylab = "Average age")
+
+res <- cor.test(boroughData$energy_density, boroughData$avg_age, 
+                method = "pearson")
+
+res$p.value
 res$estimate
 
 
+# Correlation in MSOA Area
+msoaAreaDec <- read.csv("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/Dec_msoa_grocery.csv")
 
-res2 <- cor.test(data$energy_density, data$avg_age, method="kendall")
-res2
+# View resulting data frame
+msoaAreaDec %>% data.frame 
 
-res2 <-cor.test(data$energy_density, data$avg_age, method = "spearman")
-res2
+# Keep the targeted columns: product calories, average age and number of transitions
+msoaData = msoaAreaDec[c("energy_density","avg_age","num_transactions")]
+msoaData
 
+ggscatter(msoaData, x = "energy_density", y = "avg_age",
+          add = "reg.line", conf.int = TRUE,
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Product calories(kcal)", ylab = "Average age")
 
+res <- cor.test(msoaData$energy_density, msoaData$avg_age, 
+                method = "pearson")
 
+res$p.value
+res$estimate
 
+# Correlation in Osward Area
+oswardAreaDec <- read.csv("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/Dec_osward_grocery.csv")
 
+# View resulting data frame
+oswardAreaDec %>% data.frame 
 
+# Keep the targeted columns: product calories, average age and number of transitions
+oswardData = oswardAreaDec[c("energy_density","avg_age","num_transactions")]
+oswardData
 
+ggscatter(oswardData, x = "energy_density", y = "avg_age",
+          add = "reg.line", conf.int = TRUE,
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Product calories(kcal)", ylab = "Average age")
 
+res <- cor.test(oswardData$energy_density, oswardData$avg_age, 
+                method = "pearson")
+
+res$p.value
+res$estimate
 
 # Hypothesis Testing
+
+
+
+
+
+
 
 
 
