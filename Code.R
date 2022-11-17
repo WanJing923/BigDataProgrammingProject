@@ -182,10 +182,10 @@ install.packages("ggpubr")
 library("ggpubr")
 
 # check whether the highest calories have a relationship with the consumer age
-ggscatter(data, x = "Product_calories", y = "Average_age",
+ggscatter(data, x = "Average_age", y = "Product_calories",
           add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Product calories(kcal)", ylab = "Average age")
+          xlab = "Average age", ylab = "Product calories(kcal)")
 
 res <- cor.test(data$Product_calories, data$Average_age, 
          method = "pearson")
@@ -195,10 +195,10 @@ res$estimate
 
 
 # check whether the highest transaction have a relationship with the product calories
-ggscatter(data, x = "Product_calories", y = "Number_of_transactions",
+ggscatter(data, x = "Number_of_transactions", y = "Product_calories",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Product calories(kcal)", ylab = "Number of transactions")
+          xlab = "Number of transactions", ylab = "Product calories(kcal)")
 
 res <- cor.test(data$Product_calories, data$Number_of_transactions, 
          method = "pearson")
@@ -209,7 +209,7 @@ res$estimate
 # Correlation in Borough Area
 boroughAreaDec <- read.csv("C:/Users/lauwa/Documents/BigDataProgrammingProject/BigDataProgrammingProject/DATASET/Dec_borough_grocery.csv")
 # View resulting data frame
-boroughAreaDec %>% data.frame 
+boroughAreaDec %>% data.frame
 # Keep the targeted columns: product calories, average age and number of transactions
 boroughData = subset(boroughAreaDec, select = c(energy_density, avg_age, num_transactions))
 boroughData
@@ -217,10 +217,10 @@ boroughData
 colnames(boroughData) <- c("Product_calories", "Average_age","Number_of_transactions")
 
 # product calories and average age
-ggscatter(boroughData, x = "Product_calories", y = "Average_age",
+ggscatter(boroughData, x = "Average_age", y = "Product_calories",
           add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Product calories(kcal)", ylab = "Average age")
+          xlab = "Average age", ylab = "Product calories(kcal)")
 
 res <- cor.test(boroughData$Product_calories, boroughData$Average_age,
                 method = "pearson")
@@ -229,10 +229,10 @@ res$p.value
 res$estimate
 
 # product calories and number of transactions
-ggscatter(boroughData, x = "Product_calories", y = "Number_of_transactions",
+ggscatter(boroughData, x = "Number_of_transactions", y = "Product_calories",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Product calories(kcal)", ylab = "Number of transactions")
+          xlab = "Number of transactions", ylab = "Product calories(kcal)")
 
 res <- cor.test(boroughData$Product_calories, boroughData$Number_of_transactions, 
                 method = "pearson")
@@ -251,22 +251,22 @@ msoaData
 colnames(msoaData) <- c("Product_calories", "Average_age","Number_of_transactions")
 
 # product calories and average age
-ggscatter(msoaData, x = "Product_calories", y = "Average_age",
+ggscatter(msoaData, x = "Average_age", y = "Product_calories",
           add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Product calories(kcal)", ylab = "Average age")
+          xlab = "Average age", ylab = "Product calories(kcal)")
 
-res <- cor.test(msoaData$Product_calories, msoaData$Average_age, 
+res <- cor.test(msoaData$Average_age, msoaData$Product_calories, 
                 method = "pearson")
 res
 res$p.value
 res$estimate
 
 # product calories and number of transactions
-ggscatter(msoaData, x = "Product_calories", y = "Number_of_transactions",
+ggscatter(msoaData, x = "Number_of_transactions", y = "Product_calories",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Product calories(kcal)", ylab = "Number of transactions")
+          xlab = "Number of transactions", ylab = "Product calories(kcal)")
 
 res <- cor.test(msoaData$Product_calories, msoaData$Number_of_transactions, 
                 method = "pearson")
@@ -285,10 +285,10 @@ oswardData
 colnames(oswardData) <- c("Product_calories", "Average_age","Number_of_transactions")
 
 # product calories and average age
-ggscatter(oswardData, x = "Product_calories", y = "Average_age",
+ggscatter(oswardData, x = "Average_age", y = "Product_calories",
           add = "reg.line", conf.int = TRUE,
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Product calories(kcal)", ylab = "Average age")
+          xlab = "Average age", ylab = "Product calories(kcal)")
 
 res <- cor.test(oswardData$Product_calories, oswardData$Average_age, 
                 method = "pearson")
@@ -297,10 +297,10 @@ res$p.value
 res$estimate
 
 # product calories and number of transactions
-ggscatter(oswardData, x = "Product_calories", y = "Number_of_transactions",
+ggscatter(oswardData, x = "Number_of_transactions", y = "Product_calories",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "Product calories(kcal)", ylab = "Number of transactions")
+          xlab = "Number of transactions", ylab = "Product calories(kcal)")
 
 res <- cor.test(oswardData$Product_calories, oswardData$Number_of_transactions, 
                 method = "pearson")
@@ -310,7 +310,6 @@ res$estimate
 
 
 # Hypothesis testing
-
 
 # Combines of three areas: Borough, MSOA and Osward
 # fit linear model: Product calories and Average age
